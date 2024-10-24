@@ -1,5 +1,6 @@
 package fr.lgrb.back_project.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,10 +36,12 @@ public class Recipe {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_nutrition", nullable = false)
+    @JsonIgnore
     private Nutrition idNutrition;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_category", nullable = false)
+    @JsonIgnore
     private Category idCategory;
 
 }
