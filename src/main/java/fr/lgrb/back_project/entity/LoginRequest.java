@@ -1,3 +1,7 @@
+/**
+ * demo suprimable
+ */
+
 package fr.lgrb.back_project.entity;
 
 
