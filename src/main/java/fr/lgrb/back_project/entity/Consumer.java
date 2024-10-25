@@ -1,6 +1,8 @@
 package fr.lgrb.back_project.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
@@ -11,7 +13,7 @@ import org.hibernate.annotations.ColumnDefault;
 @Table(name = "consumer")
 public class Consumer {
     @Id
-    @ColumnDefault("nextval('consumer_id_consumer_seq')")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_consumer", nullable = false)
     private Integer id;
 

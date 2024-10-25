@@ -14,7 +14,7 @@ public class Recipe {
     @Id
     @ColumnDefault("nextval('recipe_id_recipe_seq')")
     @Column(name = "id_recipe", nullable = false)
-    private Integer id;
+    private int id;
 
     @Column(name = "title", nullable = false)
     private String title;
@@ -36,12 +36,11 @@ public class Recipe {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_nutrition", nullable = false)
-    @JsonIgnore
+//    @JsonIgnore
     private Nutrition idNutrition;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_category", nullable = false)
-    @JsonIgnore
     private Category idCategory;
 
 }
