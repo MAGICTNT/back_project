@@ -1,6 +1,8 @@
 package fr.lgrb.back_project.controllers;
 
 import fr.lgrb.back_project.dto.ConsumerDTO;
+import fr.lgrb.back_project.dto.ConsumerReceivedDTO;
+import fr.lgrb.back_project.dto.ConsumerSendDTO;
 import fr.lgrb.back_project.entity.Consumer;
 import fr.lgrb.back_project.entity.Role;
 import fr.lgrb.back_project.service.ConsumerService;
@@ -12,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/consumer")
+@RequestMapping("/api/consumer")
 public class ConsumerController {
 
     @Autowired
@@ -34,12 +36,11 @@ public class ConsumerController {
     }
 
     @PostMapping("/login")
-    public ConsumerDTO login(@RequestBody ConsumerDTO consumerDTO) throws Exception {
-        ConsumerDTO consumer = consumerService.getConsumerDTOByPseudo(consumerDTO.getPseudo());
+    public ConsumerSendDTO login(@RequestBody ConsumerReceivedDTO consumerDTO) throws Exception {
+        ConsumerDTO consumer = consumerService.getConsumerDTOByPseudo(consumerDTO.getLogin());
         PassControl passControl = new PassControl();
         if (consumer != null && passControl.verifyPassword(consumerDTO.getPassword(), consumer.getPassword())) {
-            consumer.setPassword("");
-            return consumer;
+            return new ConsumerSendDTO(consumer.getPseudo(),consumer.getMail());
         } else {
             throw new RuntimeException("Invalid pseudo or password");
         }

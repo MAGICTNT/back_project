@@ -27,18 +27,22 @@ public class ConsumerService {
     }
 
     public ConsumerDTO getConsumerDTOByPseudo(String pseudo) {
-        Consumer consumer = consumerRepository.getConsumersByPseudo(pseudo);
-        System.out.println("consumer : " + consumer.getPassword());
-        if (consumer == null) {
-            throw new RuntimeException("Consumer not found with pseudo " + pseudo);
-        }
+        Consumer consumerByPseudo = consumerRepository.getConsumersByPseudo(pseudo);
+        Consumer consumerByMail = consumerRepository.getConsumersByMail(pseudo);
 
-        // Mapper le Consumer vers ConsumerDTO
         ConsumerDTO consumerDTO = new ConsumerDTO();
-        consumerDTO.setPseudo(consumer.getPseudo());
-        consumerDTO.setMail(consumer.getMail());
-        consumerDTO.setPassword(consumer.getPassword());
-        // Ajoutez d'autres propriétés si nécessaire
+
+        if (consumerByPseudo == null && consumerByMail == null) {
+            throw new RuntimeException("Consumer not found with pseudo " + pseudo);
+        }else if(consumerByPseudo == null){
+            consumerDTO.setPseudo(consumerByMail.getPseudo());
+            consumerDTO.setMail(consumerByMail.getMail());
+            consumerDTO.setPassword(consumerByMail.getPassword());
+        }else{
+            consumerDTO.setPseudo(consumerByPseudo.getPseudo());
+            consumerDTO.setMail(consumerByPseudo.getMail());
+            consumerDTO.setPassword(consumerByPseudo.getPassword());
+        }
 
         return consumerDTO;
     }
