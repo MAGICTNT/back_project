@@ -20,7 +20,7 @@ public class ConsumerController {
     @Autowired
     private ConsumerService consumerService;
 
-    @PostMapping("/new")
+    @PostMapping("/api/new")
     public Consumer creatConsumer(@RequestBody ConsumerDTO consumerDTO) throws Exception {
         System.out.println(consumerDTO);
         Consumer newConsumer = new Consumer();

@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/instruction")
+@RequestMapping("/api/instruction")
 public class InstructionController {
     @Autowired
     private InstructionRepository instructionRepository;
