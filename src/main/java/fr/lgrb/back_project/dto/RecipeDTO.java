@@ -1,5 +1,8 @@
 package fr.lgrb.back_project.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RecipeDTO {
     private Integer id;
     private String title;
@@ -10,9 +13,12 @@ public class RecipeDTO {
     private String picture;
     private String nutritionTitle;
     private String categoryTitle;
+    private List<IngredientDTO> ingredients; // Champ pour stocker les ingrédients
 
     // Constructeurs
-    public RecipeDTO() {}
+    public RecipeDTO() {
+        this.ingredients = new ArrayList<>(); // Initialiser la liste des ingrédients
+    }
 
     public RecipeDTO(Integer id, String title, Integer numberPeople, Integer duration, String description,
                      Integer seen, String picture, String nutritionTitle, String categoryTitle) {
@@ -25,6 +31,7 @@ public class RecipeDTO {
         this.picture = picture;
         this.nutritionTitle = nutritionTitle;
         this.categoryTitle = categoryTitle;
+        this.ingredients = new ArrayList<>(); // Initialiser la liste des ingrédients
     }
 
     // Getters et Setters
@@ -98,5 +105,13 @@ public class RecipeDTO {
 
     public void setCategoryTitle(String categoryTitle) {
         this.categoryTitle = categoryTitle;
+    }
+
+    public List<IngredientDTO> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<IngredientDTO> ingredients) {
+        this.ingredients = ingredients;
     }
 }

@@ -59,3 +59,37 @@ INSERT INTO allergy (id_ingredient_category, id_consumer) VALUES
 INSERT INTO liked (id_consumer, id_nutrition) VALUES
                                                   (1, 1),  -- Alice aime les protéines
                                                   (2, 2);  -- Bob aime les glucides
+
+
+-- Insertion dans la catégorie
+INSERT INTO category (title, description) VALUES ('Salades', 'Recettes fraîches et légères');
+
+
+-- Insertion dans la nutrition
+INSERT INTO nutrition (title) VALUES ('Plat léger');
+
+-- Insertion des ingrédients
+INSERT INTO ingredient (title, calorie, id_ingredient_category) VALUES
+                                                                    ('Quinoa', '120', 1),
+                                                                    ('Tomates Cerises', '18', 1),
+                                                                    ('Concombre', '16', 1),
+                                                                    ('Feta', '264', 1);
+
+-- Insertion de la recette
+INSERT INTO recipe (id_recipe,title, number_people, duration, description, seen, picture, id_nutrition, id_category) VALUES
+    (3,'Salade de Quinoa aux Légumes', 4, 30, 'Une salade fraîche et nutritive parfaite pour l''été.', 0, 'path_to_picture.jpg', 1, 1);
+
+-- Insertion des instructions
+INSERT INTO instruction (description, id_recipe) VALUES
+                                                     ('Rincer le quinoa sous l''eau froide pour enlever l''amertume.', 3),
+                                                     ('Faire cuire le quinoa dans de l''eau bouillante pendant environ 15 minutes.', 3),
+                                                     ('Couper les tomates cerises et le concombre.',3),
+                                                     ('Mélanger le quinoa avec les légumes et la feta.', 3),
+                                                     ('Assaisonner et servir frais.', 3);
+
+-- Insertion des ingrédients constituants
+INSERT INTO constituted (id_ingredient, id_recipe, quantity) VALUES
+                                                                 (1, 3, 150),
+                                                                 (2, 3, 200),
+                                                                 (3, 3, 150),
+                                                                 (4, 3, 100);
