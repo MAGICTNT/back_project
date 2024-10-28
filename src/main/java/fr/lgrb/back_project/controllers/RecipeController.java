@@ -132,8 +132,9 @@ public class RecipeController {
         recipeDTO.setPicture(recipe.getPicture());
         recipeDTO.setDuration(recipe.getDuration());
         recipeDTO.setSeen(recipe.getSeen());
-
-
+        for(Constituted co : constitutedService.findByIdRecipe(3)) {
+            System.out.println(co.getIdIngredient().getTitle());
+        }
 //        List<IngredientDTO> ingredientDTOs = new ArrayList<>();
 //        List<Constituted> constitutedList = constitutedService.findByRecipeId(id); // Méthode à créer dans le service
 //
