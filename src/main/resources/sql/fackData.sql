@@ -70,10 +70,10 @@ INSERT INTO nutrition (title) VALUES ('Plat léger');
 
 -- Insertion des ingrédients
 INSERT INTO ingredient (title, calorie, id_ingredient_category) VALUES
-                                                                    ('Quinoa', '120', 1),
+                                                                    ('Quinoa', '120', 5),
                                                                     ('Tomates Cerises', '18', 1),
                                                                     ('Concombre', '16', 1),
-                                                                    ('Feta', '264', 1);
+                                                                    ('Feta', '264', 4);
 
 -- Insertion de la recette
 INSERT INTO recipe (id_recipe,title, number_people, duration, description, seen, picture, id_nutrition, id_category) VALUES

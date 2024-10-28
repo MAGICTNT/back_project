@@ -27,6 +27,7 @@ public class RecipeService {
     }
 
     public Recipe getRecipeById(Integer id) {
+        System.out.println("service " + id);
         Optional<Recipe> recipe = recipeRepository.findById(id);
         return recipe.orElseThrow(() -> new RuntimeException("Recipe not found with id " + id));
     }
@@ -47,4 +48,9 @@ public class RecipeService {
     public void deleteRecipe(Integer id) {
         recipeRepository.deleteById(id);
     }
+
+    public Recipe getRecipeByIdName(String title){
+        return recipeRepository.getRecipesByTitle(title);
+    }
+
 }

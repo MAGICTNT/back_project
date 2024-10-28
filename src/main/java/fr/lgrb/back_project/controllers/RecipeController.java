@@ -1,23 +1,15 @@
 package fr.lgrb.back_project.controllers;
 
 import fr.lgrb.back_project.dto.*;
-import fr.lgrb.back_project.entity.Constituted;
-import fr.lgrb.back_project.entity.ConstitutedId;
-import fr.lgrb.back_project.entity.Ingredient;
-import fr.lgrb.back_project.entity.Recipe;
+import fr.lgrb.back_project.entity.*;
 
 import fr.lgrb.back_project.error.ResourceNotFoundException;
 import fr.lgrb.back_project.repository.CategoryRepository;
 import fr.lgrb.back_project.repository.NutritionRepository;
 import fr.lgrb.back_project.repository.RecipeRepository;
-import fr.lgrb.back_project.service.ConstitutedService;
-import fr.lgrb.back_project.service.IngredientService;
-import fr.lgrb.back_project.service.RecipeService;
+import fr.lgrb.back_project.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,7 +31,12 @@ public class RecipeController {
     private ConstitutedService constitutedService;
     @Autowired
     private IngredientService ingredientService;
-
+    @Autowired
+    private CategoryService categoryService;
+    @Autowired
+    private NutritionService nutritionService;
+    @Autowired
+    private InstructionService instructionService;
 
 //    @GetMapping("/all2")
 //    public List<RecipeDTO> getAllRecipes() {
@@ -132,36 +129,172 @@ public class RecipeController {
         recipeDTO.setPicture(recipe.getPicture());
         recipeDTO.setDuration(recipe.getDuration());
         recipeDTO.setSeen(recipe.getSeen());
-        for(Constituted co : constitutedService.findByIdRecipe(3)) {
-            System.out.println(co.getIdIngredient().getTitle());
-        }
-//        List<IngredientDTO> ingredientDTOs = new ArrayList<>();
-//        List<Constituted> constitutedList = constitutedService.findByRecipeId(id); // Méthode à créer dans le service
-//
-//        for (Constituted constituted : constitutedList) {
-//            Ingredient ingredient = constituted.getIdIngredient();
-//
-//            IngredientDTO ingredientDTO = new IngredientDTO();
-//            ingredientDTO.setId(ingredient.getId());
-//            ingredientDTO.setTitle(ingredient.getTitle());
-//            ingredientDTO.setCalorie(ingredient.getCalorie());
-//            ingredientDTO.setQuantity(constituted.getQuantity());
-//
-//            // Récupérer le type d'ingrédient
-//            IngredientTypeDTO ingredientTypeDTO = new IngredientTypeDTO();
-//            ingredientTypeDTO.setId(ingredient.getIdIngredientCategory().getId());
-//            ingredientTypeDTO.setTitle(ingredient.getIdIngredientCategory().getTitle());
-//            ingredientDTO.setIngredientType(ingredientTypeDTO);
-//
-//            // Ajouter l'ingrédient au DTO de la recette
-//            ingredientDTOs.add(ingredientDTO);
-//        }
 
-        // Ajouter la liste des ingrédients au DTO de la recette
-//        recipeDTO.setIngredients(ingredientDTOs);
+        List<IngredientDTO> ingredientDTOs = new ArrayList<>();
+        List<Constituted> constitutedList = constitutedService.findByIdRecipe(id); // Méthode à créer dans le service
+
+        for (Constituted constituted : constitutedList) {
+            Ingredient ingredient = constituted.getIdIngredient();
+
+            IngredientDTO ingredientDTO = new IngredientDTO();
+            ingredientDTO.setId(ingredient.getId());
+            ingredientDTO.setTitle(ingredient.getTitle());
+            ingredientDTO.setCalorie(ingredient.getCalorie());
+            ingredientDTO.setQuantity(constituted.getQuantity());
+
+            // Récupérer le type d'ingrédient
+            IngredientTypeDTO ingredientTypeDTO = new IngredientTypeDTO();
+            ingredientTypeDTO.setId(ingredient.getIdIngredientCategory().getId());
+            ingredientTypeDTO.setTitle(ingredient.getIdIngredientCategory().getTitle());
+            ingredientDTO.setIngredientType(ingredientTypeDTO);
+
+            // Ajouter l'ingrédient au DTO de la recette
+            ingredientDTOs.add(ingredientDTO);
+        }
+
+        recipeDTO.setIngredients(ingredientDTOs);
         return recipeDTO;
     }
 
+//    @PostMapping("/new")
+//    public RecipeReciveDTO newRecipe(@RequestBody RecipeReciveDTO recipeReciveDTO) {
+//        Recipe newRecipe = new Recipe();
+//        int idNewRecipe = recipeService.getAllRecipes().size() +1;
+//        newRecipe.setId(idNewRecipe);
+//        newRecipe.setTitle(recipeReciveDTO.getTitle());
+//        newRecipe.setDuration(recipeReciveDTO.getDuration());
+//        newRecipe.setSeen(recipeReciveDTO.getSeen());
+//        newRecipe.setPicture(recipeReciveDTO.getPicture());
+//        newRecipe.setNumberPeople(recipeReciveDTO.getNumberPeople());
+//        newRecipe.setIdCategory(categoryService.getCategoryById(1)); // Remplacez 1 par la valeur appropriée
+//        newRecipe.setIdNutrition(nutritionService.getNutritionById(1)); // Remplacez 1 par la valeur appropriée
+//
+//        // Ajouter les ingrédients
+//        for (RecipeReciveDTO.Ingredient ingredientDTO : recipeReciveDTO.getIngredients()) {
+//            Ingredient newIngredient = new Ingredient();
+//            newIngredient.setId(ingredientDTO.getId());
+//            newIngredient.setTitle(ingredientDTO.getTitle());
+//            ConstitutedId constitutedId = new ConstitutedId(ingredientDTO.getId(), idNewRecipe);
+//            Constituted constituted = new Constituted();
+//            constituted.setId(constitutedId);
+//            constituted.setQuantity(1111);
+//            System.out.println(constituted.getIdRecipe() + " <- id recipe");
+//            System.out.println(constituted.getId()  + " <- constituted id");
+//            System.out.println(constituted.getQuantity() + " <- quantity");
+////            constitutedService.save(constituted);
+//        }
+//        Instruction newInstruction = new Instruction();
+//        newInstruction.setIdRecipe(newRecipe);
+//        // Ajouter les instructions
+//        for (String instructionText : recipeReciveDTO.getInstructions()) {
+//            newInstruction.setId(instructionService.getAllInstructions().size() + 1);
+//            newInstruction.setDescription(instructionText);
+////            instructionService.createInstruction(newInstruction);
+//
+//        }
+//
+//
+//        // Sauvegarder la recette (si nécessaire)
+////        recipeService.createRecipe(newRecipe);
+//
+//        return recipeReciveDTO;
+//    }
 
+    @PostMapping("/new")
+    public RecipeReciveDTO newRecipe(@RequestBody RecipeReciveDTO recipeReciveDTO) {
+        Recipe newRecipe = new Recipe();
+        newRecipe.setTitle(recipeReciveDTO.getTitle());
+        newRecipe.setDuration(recipeReciveDTO.getDuration());
+        newRecipe.setSeen(recipeReciveDTO.getSeen());
+        newRecipe.setPicture(recipeReciveDTO.getPicture());
+        newRecipe.setNumberPeople(recipeReciveDTO.getNumberPeople());
+        newRecipe.setIdCategory(categoryService.getCategoryById(recipeReciveDTO.getCategoryTitle()));
+        newRecipe.setIdNutrition(nutritionService.getNutritionById(recipeReciveDTO.getNutritionTitle()));
+
+        newRecipe = recipeService.createRecipe(newRecipe);
+
+        for (RecipeReciveDTO.Ingredient ingredientDTO : recipeReciveDTO.getIngredients()) {
+            Ingredient newIngredient = ingredientService.getIngredientById(ingredientDTO.getId());
+            ConstitutedId constitutedId = new ConstitutedId(ingredientDTO.getId(), newRecipe.getId());
+            Constituted constituted = new Constituted();
+            constituted.setId(constitutedId);
+            constituted.setQuantity(ingredientDTO.getQuantity());
+            constituted.setIdIngredient(newIngredient);
+            constituted.setIdRecipe(newRecipe);
+            constitutedService.save(constituted);
+        }
+
+        for (String instructionText : recipeReciveDTO.getInstructions()) {
+            Instruction newInstruction = new Instruction();
+            newInstruction.setDescription(instructionText);
+            newInstruction.setIdRecipe(newRecipe);
+            instructionService.createInstruction(newInstruction);
+        }
+
+        return recipeReciveDTO;
+    }
+
+    @PutMapping("/update")
+    public RecipeReciveDTO updateRecipe(@RequestParam int id, @RequestBody RecipeReciveDTO recipeReciveDTO) {
+        System.out.println("put id " + id);
+        Recipe updateRecipe = recipeService.getRecipeById(id);
+        RecipeReciveDTO updateRecipeDTO = new RecipeReciveDTO();
+        if (updateRecipe == null) {
+            updateRecipe.setTitle(recipeReciveDTO.getTitle());
+            updateRecipe.setDuration(recipeReciveDTO.getDuration());
+            updateRecipe.setSeen(recipeReciveDTO.getSeen());
+            updateRecipe.setPicture(recipeReciveDTO.getPicture());
+            updateRecipe.setNumberPeople(recipeReciveDTO.getNumberPeople());
+            updateRecipe.setIdCategory(categoryService.getCategoryById(recipeReciveDTO.getCategoryTitle()));
+            updateRecipe.setIdNutrition(nutritionService.getNutritionById(recipeReciveDTO.getNutritionTitle()));
+
+            for (RecipeReciveDTO.Ingredient ingredientDTO : recipeReciveDTO.getIngredients()) {
+                Ingredient newIngredient = ingredientService.getIngredientById(ingredientDTO.getId());
+                ConstitutedId constitutedId = new ConstitutedId(ingredientDTO.getId(), updateRecipe.getId());
+                Constituted constituted = new Constituted();
+                constituted.setId(constitutedId);
+                constituted.setQuantity(ingredientDTO.getQuantity());
+                constituted.setIdIngredient(newIngredient);
+                constituted.setIdRecipe(updateRecipe);
+                constitutedService.save(constituted);
+            }
+
+            for (String instructionText : recipeReciveDTO.getInstructions()) {
+                Instruction newInstruction = new Instruction();
+                newInstruction.setDescription(instructionText);
+                newInstruction.setIdRecipe(updateRecipe);
+                instructionService.createInstruction(newInstruction);
+            }
+
+            return updateRecipeDTO;
+        } else {
+            return updateRecipeDTO;
+        }
+
+    }
+
+    @DeleteMapping("/delete")
+    public Map<String, Boolean> deleteRecipe(@RequestParam int id) {
+        Map<String, Boolean> response = new HashMap<>();
+        Recipe recipe = recipeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Recipe not found with id: " + id));
+        try {
+
+            for (Instruction instruction : instructionService.getAllInstructionByIdRecipe(recipe)) {
+                instructionService.deleteInstruction(instruction.getId());
+            }
+            for (Constituted constituted : constitutedService.findByIdRecipe(recipe.getId())) {
+                constitutedService.deleteById(constituted.getId());
+            }
+
+            recipeRepository.delete(recipe);
+            response.put("deleted", Boolean.TRUE);
+            return response;
+
+        } catch (Exception e) {
+            response.put("deleted", Boolean.FALSE);
+            return response;
+        }
+    }
 
 }
