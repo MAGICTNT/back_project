@@ -56,11 +56,11 @@ public class ConsumerService {
         return consumer.orElseThrow(() -> new RuntimeException("Consumer not found with id " + id));
     }
 
-//    public Consumer updateConsumer(Integer id, Consumer consumerDetails) {
-//        Consumer existingConsumer = getConsumerById(id);
-////        existingConsumer.setTitle(consumerDetails.getTitle());
-//        return consumerRepository.save(existingConsumer);
-//    }
+    public Consumer updateConsumer(Integer id, Consumer consumerDetails) {
+        Consumer existingConsumer = getConsumerById(id);
+//        existingConsumer.setTitle(consumerDetails.getTitle());
+        return consumerRepository.save(existingConsumer);
+    }
 
     public void deleteConsumer(Integer id) {
         consumerRepository.deleteById(id);
