@@ -26,6 +26,12 @@ public class ConsumerService {
     public Consumer findByPseudo(String pseudo) {
         return consumerRepository.getConsumersByPseudo(pseudo);
     }
+    public Consumer findByMail(String mail){
+        return consumerRepository.getConsumersByMail(mail);
+    }
+    public List<Consumer> findAllByMail(String mail){
+        return consumerRepository.findAllByMail(mail);
+    }
 
     public ConsumerDTO getConsumerDTOByPseudo(String pseudo) {
         Consumer consumerByPseudo = consumerRepository.getConsumersByPseudo(pseudo);

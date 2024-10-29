@@ -3,6 +3,7 @@ package fr.lgrb.back_project.controllers;
 import fr.lgrb.back_project.dto.ConsumerDTO;
 import fr.lgrb.back_project.dto.ConsumerReceivedDTO;
 import fr.lgrb.back_project.dto.ConsumerSendDTO;
+import fr.lgrb.back_project.dto.UpdateMailDTO;
 import fr.lgrb.back_project.entity.Consumer;
 import fr.lgrb.back_project.entity.Role;
 import fr.lgrb.back_project.error.ResourceNotFoundException;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -65,13 +67,46 @@ public class ConsumerController {
         upConsumer.setMail(consumerDTO.getMail());
         if(consumerDTO.getPassword() != ""){
             upConsumer.setPassword(consumerDTO.getPassword());
+            upConsumer = passControl.generatePassword(upConsumer);
         }
         upConsumer.setPseudo(consumerDTO.getPseudo());
 
         Role role = new Role();
         role.setId(upConsumer.getIdRole().getId());
         upConsumer.setIdRole(role);
-        consumerService.updateConsumer(passControl.generatePassword(upConsumer));
+        consumerService.updateConsumer(upConsumer);
+        response.put(200, "update");
+        return response;
+    }
+    @PutMapping("/update/mail")
+    public Map<Integer, String> updateMail(@RequestBody ConsumerDTO consumerDTO) throws Exception {
+        Map<Integer, String> response = new HashMap<>();
+
+        Consumer upConsumer = consumerService.findByPseudo(consumerDTO.getPseudo());
+
+        if(upConsumer == null){
+            response.put(404, "Consumer Not Found");
+            return response;
+        }
+        PassControl passControl = new PassControl();
+        if(!passControl.verifyPassword(consumerDTO.getPassword(), upConsumer.getPassword())){
+            response.put(401, "password Not Good");
+            return response;
+        }
+
+        List<Consumer> listConsumerMail = consumerService.findAllByMail(consumerDTO.getMail());
+        if(!listConsumerMail.isEmpty()){
+            response.put(500, "Mail Found");
+            return response;
+        }
+
+
+        upConsumer.setMail(consumerDTO.getMail());
+
+        Role role = new Role();
+        role.setId(upConsumer.getIdRole().getId());
+        upConsumer.setIdRole(role);
+        consumerService.updateConsumer(upConsumer);
         response.put(200, "update");
         return response;
     }

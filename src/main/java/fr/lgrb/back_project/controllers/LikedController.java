@@ -3,6 +3,7 @@ package fr.lgrb.back_project.controllers;
 import fr.lgrb.back_project.dto.LikedDTO;
 import fr.lgrb.back_project.dto.LikedDeleteDTO;
 import fr.lgrb.back_project.dto.LikedUpdateDTO;
+import fr.lgrb.back_project.dto.UpdateMailDTO;
 import fr.lgrb.back_project.entity.Consumer;
 import fr.lgrb.back_project.entity.Liked;
 import fr.lgrb.back_project.entity.LikedId;
@@ -126,6 +127,5 @@ public class LikedController {
 
         response.put(200, "delete");
         return response;
-
     }
 }
