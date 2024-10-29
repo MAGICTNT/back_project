@@ -63,8 +63,10 @@ public class ConsumerController {
         PassControl passControl = new PassControl();
 
         upConsumer.setMail(consumerDTO.getMail());
+        if(consumerDTO.getPassword() != ""){
+            upConsumer.setPassword(consumerDTO.getPassword());
+        }
         upConsumer.setPseudo(consumerDTO.getPseudo());
-        upConsumer.setPassword(consumerDTO.getPassword());
 
         Role role = new Role();
         role.setId(upConsumer.getIdRole().getId());
