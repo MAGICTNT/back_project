@@ -38,80 +38,80 @@ public class RecipeController {
     @Autowired
     private InstructionService instructionService;
 
-//    @GetMapping("/all2")
-//    public List<RecipeDTO> getAllRecipes() {
-//        List<RecipeDTO> allRecipe = new ArrayList<>();
-//        List<Recipe> recipes = recipeRepository.findAll();
-//        for(Recipe recipe: recipes ){
-//            RecipeDTO newRecipeDto = new RecipeDTO();
-//            newRecipeDto.setId(recipe.getId());
-//            newRecipeDto.setTitle(recipe.getTitle());
-//            newRecipeDto.setNumberPeople(recipe.getNumberPeople());
-//            newRecipeDto.setDescription(recipe.getDescription());
-//            newRecipeDto.setCategoryTitle(recipe.getIdCategory().getTitle()); // faire la récupération
-//            newRecipeDto.setNutritionTitle(recipe.getIdNutrition().getTitle());
-//            newRecipeDto.setPicture(recipe.getPicture());
-//            newRecipeDto.setDuration(recipe.getDuration());
-//            newRecipeDto.setSeen(recipe.getSeen());
-//            allRecipe.add(newRecipeDto);
-//        }
-//        return allRecipe;
-//    }
-
     @GetMapping("/all")
-    public List<ConstitutedDTO> getFullRecipes() {
-        List<ConstitutedDTO> allConstituted = new ArrayList<>();
-        Map<Integer, ConstitutedDTO> constitutedMap = new HashMap<>();
-
-        for (Constituted constituted : constitutedService.findAll()) {
-            Recipe recipe = constituted.getIdRecipe();
-            Integer recipeId = recipe.getId();
-
-            ConstitutedDTO constitutedDTO;
-
-            // Si la recette existe déjà dans le map, récupérez-la
-            if (constitutedMap.containsKey(recipeId)) {
-                constitutedDTO = constitutedMap.get(recipeId);
-            } else {
-                // Sinon, créez une nouvelle entrée pour la recette
-                RecipeDTO recipeDTO = new RecipeDTO();
-                recipeDTO.setId(recipeId);
-                recipeDTO.setTitle(recipe.getTitle());
-                recipeDTO.setNumberPeople(recipe.getNumberPeople());
-                recipeDTO.setDescription(recipe.getDescription());
-                recipeDTO.setCategoryTitle(recipe.getIdCategory().getTitle());
-                recipeDTO.setNutritionTitle(recipe.getIdNutrition().getTitle());
-                recipeDTO.setPicture(recipe.getPicture());
-                recipeDTO.setDuration(recipe.getDuration());
-                recipeDTO.setSeen(recipe.getSeen());
-
-                constitutedDTO = new ConstitutedDTO();
-                constitutedDTO.setRecipe(recipeDTO);
-                constitutedDTO.setIngredients(new ArrayList<>()); // Initialise la liste d'ingrédients
-
-                constitutedMap.put(recipeId, constitutedDTO);
-                allConstituted.add(constitutedDTO); // Ajoutez à la liste finale
-            }
-
-            // Maintenant, créez l'ingrédient
-            Ingredient ingredient = constituted.getIdIngredient();
-            IngredientDTO ingredientDTO = new IngredientDTO();
-            ingredientDTO.setId(ingredient.getId());
-            ingredientDTO.setTitle(ingredient.getTitle());
-            ingredientDTO.setCalorie(ingredient.getCalorie());
-            ingredientDTO.setQuantity(constituted.getQuantity()); // Récupération de la quantité
-
-            IngredientTypeDTO ingredientTypeDTO = new IngredientTypeDTO();
-            ingredientTypeDTO.setId(ingredient.getIdIngredientCategory().getId());
-            ingredientTypeDTO.setTitle(ingredient.getIdIngredientCategory().getTitle());
-            ingredientDTO.setIngredientType(ingredientTypeDTO);
-
-            // Ajoutez l'ingrédient à la recette
-            constitutedDTO.getIngredients().add(ingredientDTO); // Assurez-vous que la méthode pour récupérer les ingrédients est correcte
+    public List<RecipeSimpleDTO> getAllRecipes() {
+        List<RecipeSimpleDTO> allRecipe = new ArrayList<>();
+        List<Recipe> recipes = recipeRepository.findAll();
+        for(Recipe recipe: recipes ){
+            RecipeSimpleDTO newRecipeDto = new RecipeSimpleDTO();
+            newRecipeDto.setId(recipe.getId());
+            newRecipeDto.setTitle(recipe.getTitle());
+            newRecipeDto.setNumberPeople(recipe.getNumberPeople());
+            newRecipeDto.setDescription(recipe.getDescription());
+            newRecipeDto.setIdCategory(recipe.getIdCategory().getId()); // faire la récupération
+            newRecipeDto.setIdNutrition(recipe.getIdNutrition().getId());
+            newRecipeDto.setPicture(recipe.getPicture());
+            newRecipeDto.setDuration(recipe.getDuration());
+            newRecipeDto.setSeen(recipe.getSeen());
+            allRecipe.add(newRecipeDto);
         }
-
-        return allConstituted;
+        return allRecipe;
     }
+
+//    @GetMapping("/all")
+//    public List<ConstitutedDTO> getFullRecipes() {
+//        List<ConstitutedDTO> allConstituted = new ArrayList<>();
+//        Map<Integer, ConstitutedDTO> constitutedMap = new HashMap<>();
+//
+//        for (Constituted constituted : constitutedService.findAll()) {
+//            Recipe recipe = constituted.getIdRecipe();
+//            Integer recipeId = recipe.getId();
+//
+//            ConstitutedDTO constitutedDTO;
+//
+//            // Si la recette existe déjà dans le map, récupérez-la
+//            if (constitutedMap.containsKey(recipeId)) {
+//                constitutedDTO = constitutedMap.get(recipeId);
+//            } else {
+//                // Sinon, créez une nouvelle entrée pour la recette
+//                RecipeDTO recipeDTO = new RecipeDTO();
+//                recipeDTO.setId(recipeId);
+//                recipeDTO.setTitle(recipe.getTitle());
+//                recipeDTO.setNumberPeople(recipe.getNumberPeople());
+//                recipeDTO.setDescription(recipe.getDescription());
+//                recipeDTO.setCategoryTitle(recipe.getIdCategory().getTitle());
+//                recipeDTO.setNutritionTitle(recipe.getIdNutrition().getTitle());
+//                recipeDTO.setPicture(recipe.getPicture());
+//                recipeDTO.setDuration(recipe.getDuration());
+//                recipeDTO.setSeen(recipe.getSeen());
+//
+//                constitutedDTO = new ConstitutedDTO();
+//                constitutedDTO.setRecipe(recipeDTO);
+//                constitutedDTO.setIngredients(new ArrayList<>()); // Initialise la liste d'ingrédients
+//
+//                constitutedMap.put(recipeId, constitutedDTO);
+//                allConstituted.add(constitutedDTO); // Ajoutez à la liste finale
+//            }
+//
+//            // Maintenant, créez l'ingrédient
+//            Ingredient ingredient = constituted.getIdIngredient();
+//            IngredientDTO ingredientDTO = new IngredientDTO();
+//            ingredientDTO.setId(ingredient.getId());
+//            ingredientDTO.setTitle(ingredient.getTitle());
+//            ingredientDTO.setCalorie(ingredient.getCalorie());
+//            ingredientDTO.setQuantity(constituted.getQuantity()); // Récupération de la quantité
+//
+//            IngredientTypeDTO ingredientTypeDTO = new IngredientTypeDTO();
+//            ingredientTypeDTO.setId(ingredient.getIdIngredientCategory().getId());
+//            ingredientTypeDTO.setTitle(ingredient.getIdIngredientCategory().getTitle());
+//            ingredientDTO.setIngredientType(ingredientTypeDTO);
+//
+//            // Ajoutez l'ingrédient à la recette
+//            constitutedDTO.getIngredients().add(ingredientDTO); // Assurez-vous que la méthode pour récupérer les ingrédients est correcte
+//        }
+//
+//        return allConstituted;
+//    }
 
 
     @GetMapping("/{id}")
