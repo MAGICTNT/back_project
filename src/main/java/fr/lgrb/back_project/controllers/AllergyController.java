@@ -52,6 +52,22 @@ public class AllergyController {
         return allergyConsumerDTO;
     }
 
+    @GetMapping("/byConsumer")
+    public AllergyConsumerDTO allAllergyConsumer(@RequestParam String pseudo){
+        Consumer consumer = consumerService.findByPseudo(pseudo);
+        List<Allergy> listAllergy = allergyService.findByConsumerId(consumer.getPseudo());
+        AllergyConsumerDTO allergyConsumerDTO = new AllergyConsumerDTO();
+        allergyConsumerDTO.setPseudo(consumer.getPseudo());
+        List<Map<Integer, String>> list = new ArrayList<>();
+        for(Allergy allergy : listAllergy){
+            HashMap<Integer , String> add = new HashMap<>();
+            add.put(allergy.getIdIngredientCategory().getId(), allergy.getIdIngredientCategory().getTitle());
+            list.add(add);
+        }
+        allergyConsumerDTO.setListIngredientCategory(list);
+        return allergyConsumerDTO;
+    }
+
     @PostMapping("/new")
     public Map<Integer, String> newAllergy(@RequestBody AllergySendDTO allergySendDTO){
         Consumer consumer = consumerService.findByPseudo(allergySendDTO.getPseudo());

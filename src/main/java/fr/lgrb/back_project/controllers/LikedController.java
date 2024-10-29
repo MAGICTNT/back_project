@@ -1,9 +1,6 @@
 package fr.lgrb.back_project.controllers;
 
-import fr.lgrb.back_project.dto.LikedDTO;
-import fr.lgrb.back_project.dto.LikedDeleteDTO;
-import fr.lgrb.back_project.dto.LikedUpdateDTO;
-import fr.lgrb.back_project.dto.UpdateMailDTO;
+import fr.lgrb.back_project.dto.*;
 import fr.lgrb.back_project.entity.Consumer;
 import fr.lgrb.back_project.entity.Liked;
 import fr.lgrb.back_project.entity.LikedId;
@@ -50,6 +47,21 @@ public class LikedController {
             System.out.println("---------");
         }
         return likedDTOList;
+    }
+
+    @GetMapping("/byConsumer")
+    public LikedConsumerDTO getAllAllergyConsumer(@RequestParam String pseudo){
+        LikedConsumerDTO likedConsumerDTO = new LikedConsumerDTO();
+        Consumer consumer = consumerService.findByPseudo(pseudo);
+        likedConsumerDTO.setPseudo(consumer.getPseudo());
+        List<Map<Integer, String>> listLiked = new ArrayList<>();
+        for(Liked liked : likedService.findByConsumerId(consumer.getId())){
+           Map<Integer, String> add = new HashMap<>();
+           add.put(liked.getIdNutrition().getId(), liked.getIdNutrition().getTitle());
+           listLiked.add(add);
+        }
+        likedConsumerDTO.setListLiked(listLiked);
+        return likedConsumerDTO;
     }
 
     @PostMapping("/new")
