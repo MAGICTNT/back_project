@@ -26,6 +26,10 @@ public class NutritionService {
         return nutritionRepository.findAll();
     }
 
+    public Nutrition findByIdAndTitle(int id , String title){
+        return nutritionRepository.findByIdAndTitle(id, title);
+    }
+
     public Nutrition getNutritionById(Integer id) {
         Optional<Nutrition> nutrition = nutritionRepository.findById(id);
         return nutrition.orElseThrow(() -> new RuntimeException("Nutrition not found with id " + id));

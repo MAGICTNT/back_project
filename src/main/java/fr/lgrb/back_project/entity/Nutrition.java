@@ -1,9 +1,6 @@
 package fr.lgrb.back_project.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
@@ -15,6 +12,7 @@ import org.hibernate.annotations.ColumnDefault;
 public class Nutrition {
     @Id
     @ColumnDefault("nextval('nutrition_id_nutrition_seq')")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_nutrition", nullable = false)
     private Integer id;
 

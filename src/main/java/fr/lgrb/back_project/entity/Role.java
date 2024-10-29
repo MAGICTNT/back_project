@@ -1,9 +1,6 @@
 package fr.lgrb.back_project.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
@@ -15,6 +12,7 @@ import org.hibernate.annotations.ColumnDefault;
 public class Role {
     @Id
     @ColumnDefault("nextval('role_id_role_seq')")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_role", nullable = false)
     private Integer id;
 

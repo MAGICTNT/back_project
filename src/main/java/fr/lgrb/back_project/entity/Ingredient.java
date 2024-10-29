@@ -12,6 +12,7 @@ import org.hibernate.annotations.ColumnDefault;
 public class Ingredient {
     @Id
     @ColumnDefault("nextval('ingredient_id_ingredient_seq')")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_ingredient", nullable = false)
     private Integer id;
 
