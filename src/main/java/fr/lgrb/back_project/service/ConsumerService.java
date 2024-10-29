@@ -2,6 +2,7 @@ package fr.lgrb.back_project.service;
 
 import fr.lgrb.back_project.dto.ConsumerDTO;
 import fr.lgrb.back_project.entity.Consumer;
+import fr.lgrb.back_project.entity.Role;
 import fr.lgrb.back_project.repository.ConsumerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,10 +57,22 @@ public class ConsumerService {
         return consumer.orElseThrow(() -> new RuntimeException("Consumer not found with id " + id));
     }
 
-    public Consumer updateConsumer(Integer id, Consumer consumerDetails) {
-        Consumer existingConsumer = getConsumerById(id);
+    public Consumer updateConsumer( Consumer consumerDetails) {
+        Consumer updateConsumer = new Consumer();
+//        updateConsumer.setId(consumerDetails.getId());
+        updateConsumer.setPseudo(consumerDetails.getPseudo());
+        updateConsumer.setPassword(consumerDetails.getPassword());
+        updateConsumer.setMail(consumerDetails.getMail());
+        Role role = new Role();
+        role.setId(1);
+        updateConsumer.setIdRole(role);
+        System.out.println("------");
+        System.out.println(updateConsumer.getId());
+
 //        existingConsumer.setTitle(consumerDetails.getTitle());
-        return consumerRepository.save(existingConsumer);
+            return consumerRepository.save(consumerDetails);
+
+
     }
 
     public void deleteConsumer(Integer id) {

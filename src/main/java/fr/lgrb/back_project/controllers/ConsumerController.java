@@ -48,19 +48,30 @@ public class ConsumerController {
     }
 
     @PutMapping("/update")
-    public ConsumerDTO update(@RequestBody ConsumerDTO consumerDTO){
-        System.out.println(consumerService.getConsumerDTOByPseudo(consumerDTO.getPseudo()));
-        ConsumerDTO updateConsumer = consumerService.getConsumerDTOByPseudo(consumerDTO.getPseudo());
-        if(updateConsumer == null){
+    public Map<Integer, String> update(@RequestBody ConsumerDTO consumerDTO) throws Exception {
+//    public Consumer update(@RequestBody ConsumerDTO consumerDTO) throws Exception {
+        Map<Integer, String> response = new HashMap<>();
+
+        Consumer upConsumer = consumerService.findByPseudo(consumerDTO.getPseudo());
+
+        if(upConsumer == null){
             System.out.println("null");
-            return updateConsumer;
+            response.put(404, "Not Found");
+            return response;
         }
-        System.out.println("not null");
-        updateConsumer.setPassword(consumerDTO.getPassword());
-        updateConsumer.setMail(consumerDTO.getMail());
-        updateConsumer.setPassword(consumerDTO.getPassword());
-//        consumerService.up
-        return updateConsumer;
+
+        PassControl passControl = new PassControl();
+
+        upConsumer.setMail(consumerDTO.getMail());
+        upConsumer.setPseudo(consumerDTO.getPseudo());
+        upConsumer.setPassword(consumerDTO.getPassword());
+
+        Role role = new Role();
+        role.setId(upConsumer.getIdRole().getId());
+        upConsumer.setIdRole(role);
+        consumerService.updateConsumer(passControl.generatePassword(upConsumer));
+        response.put(200, "update");
+        return response;
     }
 
     @DeleteMapping("/delete")
