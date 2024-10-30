@@ -22,8 +22,32 @@ public class ConsumerController {
     private ConsumerService consumerService;
 
     @PostMapping("/new")
-    public Consumer creatConsumer(@RequestBody ConsumerDTO consumerDTO) throws Exception {
+    public ConsumerInscriptionDTO creatConsumer(@RequestBody ConsumerDTO consumerDTO) throws Exception {
         Consumer newConsumer = new Consumer();
+        Consumer consumerByPseudo = consumerService.findByPseudo(consumerDTO.getPseudo());
+        ConsumerInscriptionDTO consumerInscriptionDTO = new ConsumerInscriptionDTO();
+
+        Map<Integer, String> pseudoControl = new HashMap<>();
+        Map<Integer, String> mailControl = new HashMap<>();
+        if (consumerByPseudo != null){
+            pseudoControl.put(500, consumerDTO.getPseudo());
+        }else {
+            pseudoControl.put(200, consumerDTO.getPseudo());
+        }
+
+        Consumer consumerByMail = consumerService.findByMail(consumerDTO.getMail());
+        if (consumerByMail != null){
+            mailControl.put(500, consumerDTO.getMail());
+        }else {
+            mailControl.put(200, consumerDTO.getMail());
+        }
+        if(consumerByPseudo != null || consumerByMail != null){
+            consumerInscriptionDTO.setMail(mailControl);
+            consumerInscriptionDTO.setPseudo(pseudoControl);
+
+            consumerInscriptionDTO.setRole("admin");
+            return consumerInscriptionDTO;
+        }
         newConsumer.setPseudo(consumerDTO.getPseudo());
         newConsumer.setMail(consumerDTO.getMail());
         newConsumer.setPassword(consumerDTO.getPassword());
@@ -31,8 +55,13 @@ public class ConsumerController {
         role.setId(1);
         PassControl passControl = new PassControl();
         newConsumer.setIdRole(role);
+        pseudoControl.put(200, consumerDTO.getPseudo());
 
-        return consumerService.createConsumer(passControl.generatePassword(newConsumer));
+        consumerService.createConsumer(passControl.generatePassword(newConsumer));
+        consumerInscriptionDTO.setMail(mailControl);
+        consumerInscriptionDTO.setPseudo(pseudoControl);
+        consumerInscriptionDTO.setRole("admin");
+        return consumerInscriptionDTO;
     }
 
     @PostMapping("/login")
