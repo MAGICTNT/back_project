@@ -77,8 +77,8 @@ public class RecipeService {
         dto.setDescription(recipe.getDescription());
         dto.setSeen(recipe.getSeen());
         dto.setPicture(recipe.getPicture());
-        dto.setNutritionTitle(recipe.getIdNutrition().getId());
-        dto.setCategoryTitle(recipe.getIdCategory().getId());
+        dto.setIdNutrition(recipe.getIdNutrition().getTitle());
+        dto.setIdCategory(recipe.getIdCategory().getTitle());
 
         // Récupération des ingrédients associés via constitutedService
         List<RecipeReciveDTO.Ingredient> ingredientDTOs = constitutedService.findByRecipeId(recipe.getId()).stream()

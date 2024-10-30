@@ -1,6 +1,9 @@
 package fr.lgrb.back_project.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,18 +12,18 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString
-public class RecipeReciveDTO {
+public class RecipeReciveAdvanceDTO {
+    private int id;
     private String title;
-    private int numberPeople;
-    private int duration;
-    private String description;
-    private int seen;
+    private int idCategory;
     private String picture;
-    private String idNutrition;
-    private String idCategory;
+    private int duration;
+    private int numberPeople;
+    private String description;
+    private int idNutrition;
+    private int seen;
     private List<Ingredient> ingredients = new ArrayList<>();
-    private List<String> instructions = new ArrayList<>();
+    private List<InstructionTextDTO> instructions = new ArrayList<>();
 
     @Data
     @NoArgsConstructor

@@ -213,14 +213,22 @@ public class RecipeController {
 
     @PostMapping("/new")
     public RecipeReciveDTO newRecipe(@RequestBody RecipeReciveDTO recipeReciveDTO) {
+        System.out.println("--------");
+        System.out.println(recipeReciveDTO.toString());
+        System.out.println("--------");
         Recipe newRecipe = new Recipe();
         newRecipe.setTitle(recipeReciveDTO.getTitle());
         newRecipe.setDuration(recipeReciveDTO.getDuration());
+        newRecipe.setDescription(recipeReciveDTO.getDescription());
         newRecipe.setSeen(recipeReciveDTO.getSeen());
-        newRecipe.setPicture(recipeReciveDTO.getPicture());
+        newRecipe.setPicture("10.jpg");
         newRecipe.setNumberPeople(recipeReciveDTO.getNumberPeople());
-        newRecipe.setIdCategory(categoryService.getCategoryById(recipeReciveDTO.getCategoryTitle()));
-        newRecipe.setIdNutrition(nutritionService.getNutritionById(recipeReciveDTO.getNutritionTitle()));
+        Category category = new Category();
+        category.setId(Integer.valueOf(recipeReciveDTO.getIdCategory()));
+        newRecipe.setIdCategory(category);
+        Nutrition nutrition = new Nutrition();
+        nutrition.setId(Integer.valueOf(recipeReciveDTO.getIdNutrition()));
+        newRecipe.setIdNutrition((nutrition));
 
         newRecipe = recipeService.createRecipe(newRecipe);
 
@@ -256,8 +264,8 @@ public class RecipeController {
             updateRecipe.setSeen(recipeReciveDTO.getSeen());
             updateRecipe.setPicture(recipeReciveDTO.getPicture());
             updateRecipe.setNumberPeople(recipeReciveDTO.getNumberPeople());
-            updateRecipe.setIdCategory(categoryService.getCategoryById(recipeReciveDTO.getCategoryTitle()));
-            updateRecipe.setIdNutrition(nutritionService.getNutritionById(recipeReciveDTO.getNutritionTitle()));
+            updateRecipe.setIdCategory(categoryService.getCategoryById(1));
+            updateRecipe.setIdNutrition(nutritionService.getNutritionById(1));
 
             for (RecipeReciveDTO.Ingredient ingredientDTO : recipeReciveDTO.getIngredients()) {
                 Ingredient newIngredient = ingredientService.getIngredientById(ingredientDTO.getId());
