@@ -33,6 +33,10 @@ public class ConstitutedService {
         return constitutedRepository.save(constituted);
     }
 
+    public List<Constituted> findByRecipeId(int recipeId) {
+        return constitutedRepository.findAllByIdRecipe_Id(recipeId);
+    }
+
     public void deleteById(ConstitutedId id) {
         constitutedRepository.deleteById(id);
     }

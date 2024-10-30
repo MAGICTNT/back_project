@@ -1,9 +1,6 @@
 package fr.lgrb.back_project.controllers;
 
-import fr.lgrb.back_project.dto.ConsumerDTO;
-import fr.lgrb.back_project.dto.ConsumerReceivedDTO;
-import fr.lgrb.back_project.dto.ConsumerSendDTO;
-import fr.lgrb.back_project.dto.UpdateMailDTO;
+import fr.lgrb.back_project.dto.*;
 import fr.lgrb.back_project.entity.Consumer;
 import fr.lgrb.back_project.entity.Role;
 import fr.lgrb.back_project.error.ResourceNotFoundException;
@@ -15,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/consumer")
@@ -25,7 +23,6 @@ public class ConsumerController {
 
     @PostMapping("/new")
     public Consumer creatConsumer(@RequestBody ConsumerDTO consumerDTO) throws Exception {
-        System.out.println(consumerDTO);
         Consumer newConsumer = new Consumer();
         newConsumer.setPseudo(consumerDTO.getPseudo());
         newConsumer.setMail(consumerDTO.getMail());
@@ -65,7 +62,7 @@ public class ConsumerController {
         PassControl passControl = new PassControl();
 
         upConsumer.setMail(consumerDTO.getMail());
-        if(consumerDTO.getPassword() != ""){
+        if(!Objects.equals(consumerDTO.getPassword(), "")){
             upConsumer.setPassword(consumerDTO.getPassword());
             upConsumer = passControl.generatePassword(upConsumer);
         }

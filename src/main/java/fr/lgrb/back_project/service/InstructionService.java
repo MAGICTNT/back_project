@@ -42,6 +42,10 @@ public class InstructionService {
         return instructionRepository.save(existingInstruction);
     }
 
+    public List<Instruction> findByRecipeId(int recipeId) {
+        return instructionRepository.findAllByIdRecipe_Id(recipeId);
+    }
+
     public void deleteInstruction(Integer id) {
         instructionRepository.deleteById(id);
     }

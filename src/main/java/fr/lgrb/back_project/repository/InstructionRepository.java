@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface InstructionRepository extends JpaRepository<Instruction, Integer> {
     public List<Instruction> getAllByIdRecipe(Recipe idRecipe);
+    List<Instruction> findAllByIdRecipe_Id(int id);
 }

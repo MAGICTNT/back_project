@@ -14,6 +14,7 @@ public class RecipeDTO {
     private String nutritionTitle;
     private String categoryTitle;
     private List<IngredientDTO> ingredients; // Champ pour stocker les ingrédients
+    private List<InstructionDTO> instructions;
 
     // Constructeurs
     public RecipeDTO() {
@@ -113,5 +114,13 @@ public class RecipeDTO {
 
     public void setIngredients(List<IngredientDTO> ingredients) {
         this.ingredients = ingredients;
+    }
+
+    public List<InstructionDTO> getInstructions() {
+        return instructions;
+    }
+
+    public void setInstructions(List<InstructionDTO> instructions) {
+        this.instructions = instructions;
     }
 }

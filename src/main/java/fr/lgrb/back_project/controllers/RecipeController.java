@@ -9,6 +9,7 @@ import fr.lgrb.back_project.repository.NutritionRepository;
 import fr.lgrb.back_project.repository.RecipeRepository;
 import fr.lgrb.back_project.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -118,7 +119,7 @@ public class RecipeController {
     public RecipeDTO getRecipeById(@PathVariable Integer id) {
         Recipe recipe = recipeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Recipe not found with id: " + id));
-
+        List<Instruction> instructionRecipe = instructionService.findByRecipeId(id);
         RecipeDTO recipeDTO = new RecipeDTO();
         recipeDTO.setId(recipe.getId());
         recipeDTO.setTitle(recipe.getTitle());
@@ -151,8 +152,18 @@ public class RecipeController {
             // Ajouter l'ingrédient au DTO de la recette
             ingredientDTOs.add(ingredientDTO);
         }
-
         recipeDTO.setIngredients(ingredientDTOs);
+
+        List<InstructionDTO> instructionDTOList = new ArrayList<>();
+
+        for(Instruction instruction : instructionRecipe){
+            InstructionDTO instructionDTO = new InstructionDTO();
+            instructionDTO.setId(instruction.getId());
+            instructionDTO.setDescription(instruction.getDescription());
+            instructionDTOList.add(instructionDTO);
+        }
+
+        recipeDTO.setInstructions(instructionDTOList);
         return recipeDTO;
     }
 
@@ -271,6 +282,20 @@ public class RecipeController {
             return updateRecipeDTO;
         }
 
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<RecipeReciveDTO>> searchRecipes(
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) List<Integer> allergenIds,
+            @RequestParam(required = false) Integer nutritionId,
+            @RequestParam(required = false) Integer categoryId) {
+
+        List<RecipeReciveDTO> recipes = recipeService.searchRecipes(title, allergenIds, nutritionId, categoryId);
+        for(RecipeReciveDTO recipeReciveDTO : recipes){
+            System.out.println(recipeReciveDTO.getTitle());
+        }
+        return ResponseEntity.ok(recipes);
     }
 
     @DeleteMapping("/delete")

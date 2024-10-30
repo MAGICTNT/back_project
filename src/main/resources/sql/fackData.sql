@@ -7,11 +7,11 @@ INSERT INTO category (title, description) VALUES
                                               ('Plat principal', 'Recettes complètes pour le déjeuner ou le dîner');
 
 -- Insertion des catégories d'ingrédients
-INSERT INTO ingredient_category (title) VALUES
-                                            ('Légumes'),
-                                            ('Fruits'),
-                                            ('Viandes'),
-                                            ('Produits laitiers');
+INSERT INTO ingredient_category (id_ingredient_category,title) VALUES
+                                            (1,'Légumes'),
+                                            (2,'Fruits'),
+                                            (3,'Viandes'),
+                                            (4,'Produits laitiers');
 
 -- Insertion des nutriments
 INSERT INTO nutrition (title) VALUES

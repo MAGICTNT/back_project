@@ -15,4 +15,6 @@ public interface ConstitutedRepository extends JpaRepository<Constituted, Consti
 
 //    @Query("SELECT * FROM constituted as c where id_recipe = ?")
 //    List<Constituted>
+
+
 }
