@@ -221,6 +221,8 @@ public class RecipeController {
         newRecipe.setDuration(recipeReciveDTO.getDuration());
         newRecipe.setDescription(recipeReciveDTO.getDescription());
         newRecipe.setSeen(recipeReciveDTO.getSeen());
+        int rand = (int) (Math.floor(Math.random() * 10) + 1);
+        String img = rand + ".jpg";
         newRecipe.setPicture("10.jpg");
         newRecipe.setNumberPeople(recipeReciveDTO.getNumberPeople());
         Category category = new Category();
