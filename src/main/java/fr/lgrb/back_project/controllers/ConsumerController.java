@@ -40,7 +40,7 @@ public class ConsumerController {
         ConsumerDTO consumer = consumerService.getConsumerDTOByPseudo(consumerDTO.getLogin());
         PassControl passControl = new PassControl();
         if (consumer != null && passControl.verifyPassword(consumerDTO.getPassword(), consumer.getPassword())) {
-            return new ConsumerSendDTO(consumer.getPseudo(),consumer.getMail());
+            return new ConsumerSendDTO(consumer.getPseudo(),consumer.getMail(), consumer.getRole());
         } else {
             throw new RuntimeException("Invalid pseudo or password");
         }
@@ -69,7 +69,16 @@ public class ConsumerController {
         upConsumer.setPseudo(consumerDTO.getPseudo());
 
         Role role = new Role();
-        role.setId(upConsumer.getIdRole().getId());
+        switch (consumerDTO.getRole()){
+            case "admin" :{
+                role.setId(1);
+                break;
+            }
+            default: {
+                role.setId(2);
+                break;
+            }
+        }
         upConsumer.setIdRole(role);
         consumerService.updateConsumer(upConsumer);
         response.put(200, "update");

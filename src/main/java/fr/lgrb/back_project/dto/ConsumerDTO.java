@@ -13,4 +13,5 @@ public class ConsumerDTO {
     private String pseudo;
     private String mail;
     private String password;
+    private String role;
 }

@@ -14,7 +14,7 @@ public class RecipeSimpleDTO {
     private int idNutrition;
     private int idCategory;
     private List<IngredientDTO> ingredients; // Champ pour stocker les ingrédients
-
+    private List<String> instructions = new ArrayList<>();
     // Constructeurs
     public RecipeSimpleDTO() {
         this.ingredients = new ArrayList<>(); // Initialiser la liste des ingrédients
@@ -113,5 +113,13 @@ public class RecipeSimpleDTO {
 
     public void setIngredients(List<IngredientDTO> ingredients) {
         this.ingredients = ingredients;
+    }
+
+    public List<String> getInstructions() {
+        return instructions;
+    }
+
+    public void setInstructions(List<String> instructions) {
+        this.instructions = instructions;
     }
 }

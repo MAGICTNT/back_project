@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class ConsumerSendDTO {
     private String pseudo;
     private String mail;
+    private String role;
 }

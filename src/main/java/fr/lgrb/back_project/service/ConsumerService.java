@@ -45,10 +45,13 @@ public class ConsumerService {
             consumerDTO.setPseudo(consumerByMail.getPseudo());
             consumerDTO.setMail(consumerByMail.getMail());
             consumerDTO.setPassword(consumerByMail.getPassword());
+            consumerDTO.setRole(consumerByMail.getIdRole().getTitle());
         }else{
             consumerDTO.setPseudo(consumerByPseudo.getPseudo());
             consumerDTO.setMail(consumerByPseudo.getMail());
             consumerDTO.setPassword(consumerByPseudo.getPassword());
+            consumerDTO.setRole(consumerByPseudo.getIdRole().getTitle());
+
         }
 
         return consumerDTO;
