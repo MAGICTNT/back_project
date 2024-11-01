@@ -16,21 +16,6 @@ Ce backend est développé en Spring Boot et utilise une base de données Postgr
 
 Voici un exemple de configuration pour le fichier `application.properties` :
 
-- `spring.application.name=back_project`
-- `spring.datasource.url=jdbc:postgresql://localhost:5432/[nom_de_la_bdd]`
-- `spring.datasource.username=[pseudo.bdd]`
-- `spring.datasource.password=[password.bdd]`
-- `spring.jpa.hibernate.ddl-auto=update`
-- `springdoc.swagger-ui.path=/doc`
-
-### Base de Données
-
-Le projet utilise PostgreSQL. Les scripts SQL pour créer les tables et insérer des jeux de données de test se trouvent dans le répertoire `resources/sql`.
-
-## Contribution
-
-Les personnes ayant contribué au développement de ce projet sont :
-
 ```properties
 spring.application.name=back_project
 
@@ -41,6 +26,19 @@ spring.jpa.hibernate.ddl-auto=update
 
 springdoc.swagger-ui.path=/doc
 ```
+
+### Base de Données
+
+Le projet utilise PostgreSQL. Les scripts SQL pour créer les tables et insérer des jeux de données de test se trouvent dans le répertoire `resources/sql`.
+
+## Contribution
+
+Les personnes ayant contribué au développement de ce projet sont :
+
+- **Haiou King** - [GitHub](https://github.com/mangaluxe)
+- **Tibault Garcia** - [GitHub](https://github.com/Mysthaqua)
+- **Guilaume** - [GitHub](https://github.com/sun7code)
+- **Maxime** - [GitHub](https://github.com/MAGICTNT)
 
 ## Installation et Lancement
 
